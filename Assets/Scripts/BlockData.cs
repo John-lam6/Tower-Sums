@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public enum BlockState {
     InHotbar,
@@ -13,20 +14,47 @@ public class BlockData : MonoBehaviour {
     public int value = 1;
     public BlockState state;
     public float unitHeight = 1f;
+    public TextMeshPro textbox;
+    
+    public Material default_outline;
+    public Material addition_outline;
+    public Material subtraction_outline;
+    
+    private MeshRenderer mesh_renderer;
     
     // Start is called before the first frame update
     void Start() {
         UpdateHeight();
+        mesh_renderer = GetComponent<MeshRenderer>();
+        UpdateMaterial();
     }
 
     void OnValidate() {
         UpdateHeight();
+        if (mesh_renderer != null) UpdateMaterial();
+        textbox.text = value.ToString();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    void UpdateMaterial() {
+        Material[] mats = mesh_renderer.materials;
+        switch (state) {
+            case BlockState.InHotbar:
+                mats[1] = default_outline;
+                break;
+            case BlockState.OnAddition:
+                mats[1] = addition_outline;
+                break;
+            case BlockState.OnSubtraction:
+                mats[1] = subtraction_outline;
+                break;
+        }
+        mesh_renderer.materials = mats;
     }
 
     void UpdateHeight() {
@@ -40,5 +68,14 @@ public class BlockData : MonoBehaviour {
         Vector3 pos = transform.position;
         pos.y = scale.y / 2f;
         transform.position = pos;
+
+        if (textbox != null) {
+            textbox.transform.localScale = new Vector3(1f, 1f / scale.y, 1f);
+        }
+    }
+
+    public void SetState(BlockState newState) {
+        state = newState;
+        UpdateMaterial();
     }
 }

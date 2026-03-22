@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     }
 
     IEnumerator OnSubmitCoroutine() {
+        textbox.color = Color.white;
         int towervalue, result;
         textbox.transform.position = new Vector3(-5.23f, 5.42f, 0.1f);
         textbox.enabled = true;
@@ -102,10 +103,12 @@ public class GameManager : MonoBehaviour
         // correct
         if (result == targetTower.GetTotalValue()) {
             audiosource.PlayOneShot(correct_clip);
+            textbox.color = Color.green;
         }
         // incorrect
         else {
             audiosource.PlayOneShot(wrong_clip);
+            textbox.color = Color.red;
         }
     }
     
