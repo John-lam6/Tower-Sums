@@ -527,10 +527,10 @@ RectTransform:
   - {fileID: 317862896}
   m_Father: {fileID: 1031505213}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 752.4, y: -433.5}
-  m_SizeDelta: {x: 230, y: 80}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -196.1, y: 105.1}
+  m_SizeDelta: {x: 394.7, y: 208}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &220064605
 MonoBehaviour:
@@ -838,13 +838,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35
-  m_fontSizeBase: 35
+  m_fontSize: 72
+  m_fontSizeBase: 72
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -969,7 +969,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 03939869fa4834643b38c6b79653ed2f, type: 2}
+  - {fileID: 2100000, guid: b0af6d48d0f23ba4fa87e981431e2d20, type: 2}
   - {fileID: 2100000, guid: f0f828a494e047647a45d20e42e7881a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -2386,7 +2386,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 03939869fa4834643b38c6b79653ed2f, type: 2}
+  - {fileID: 2100000, guid: b0af6d48d0f23ba4fa87e981431e2d20, type: 2}
   - {fileID: 2100000, guid: f0f828a494e047647a45d20e42e7881a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -3599,6 +3599,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Block (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2762766433357028143, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b0af6d48d0f23ba4fa87e981431e2d20, type: 2}
     - target: {fileID: 7213342387619940507, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.89
