@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -26,12 +27,19 @@ public class GameManager : MonoBehaviour
     public AudioClip value1_clip;
     public AudioClip value2_clip;
     public AudioClip lights_out_clip;
+
+    public Button submitButton;
+
+    private bool isClicked = false;
     
     public void OnSubmit() {
-        StartCoroutine(OnSubmitCoroutine());
+        if (!isClicked) StartCoroutine(OnSubmitCoroutine());
+        isClicked = true;
     }
 
     IEnumerator OnSubmitCoroutine() {
+        submitButton.image.color = Color.gray;
+        submitButton.interactable = false;
         textbox.color = Color.white;
         int towervalue, result;
         textbox.transform.position = new Vector3(-5.23f, 5.42f, 0.1f);
@@ -66,7 +74,8 @@ public class GameManager : MonoBehaviour
                 // shows the total value of the tower next to the tower, then displays current result
         yield return new WaitForSeconds(0.65f);
         audiosource.PlayOneShot(value1_clip);
-        textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
+        //textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
+        textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString() + " + " + towervalue.ToString();
         result += addTower.GetTotalValue();
         yield return new WaitForSeconds(0.65f);
         audiosource.PlayOneShot(value2_clip);
@@ -84,7 +93,8 @@ public class GameManager : MonoBehaviour
                 // shows the total value of the tower next to the tower, then displays current result
         yield return new WaitForSeconds(0.65f);
         audiosource.PlayOneShot(value1_clip);
-        textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
+        //textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
+        textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString() + " - " + towervalue.ToString();
         result -= subTower.GetTotalValue();
         yield return new WaitForSeconds(0.65f);
         audiosource.PlayOneShot(value2_clip);
@@ -111,10 +121,16 @@ public class GameManager : MonoBehaviour
             textbox.color = Color.red;
         }
     }
+
+    public void resetClicked() {
+        isClicked = false;
+    }
     
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
+        isClicked = false;
+        submitButton.image.color = Color.white;
+        submitButton.interactable = true;
         textbox.enabled = false;
         startTower = startTower_GO.GetComponent<TowerController>();
         addTower = addTower_GO.GetComponent<TowerController>();

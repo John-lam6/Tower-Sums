@@ -2718,6 +2718,7 @@ MonoBehaviour:
   value1_clip: {fileID: 8300000, guid: 58036dae86147fd43a37727da51cd50e, type: 3}
   value2_clip: {fileID: 8300000, guid: 6dd190b6f2461004f9050c521176022f, type: 3}
   lights_out_clip: {fileID: 8300000, guid: 8789f61f02449864b89d800926b39419, type: 3}
+  submitButton: {fileID: 220064605}
 --- !u!4 &1450306716
 Transform:
   m_ObjectHideFlags: 0
