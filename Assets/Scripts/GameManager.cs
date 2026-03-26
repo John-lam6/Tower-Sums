@@ -133,8 +133,8 @@ public class GameManager : MonoBehaviour
         submitButton.interactable = true;
         textbox.enabled = false;
         startTower = startTower_GO.GetComponent<TowerController>();
-        addTower = addTower_GO.GetComponent<TowerController>();
-        subTower = subTower_GO.GetComponent<TowerController>();
+        // addTower = addTower_GO.GetComponent<TowerController>();
+        // subTower = subTower_GO.GetComponent<TowerController>();
         targetTower = targetTower_GO.GetComponent<TowerController>();
     }
 
