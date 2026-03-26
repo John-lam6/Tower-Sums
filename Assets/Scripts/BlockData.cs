@@ -22,7 +22,6 @@ public class BlockData : MonoBehaviour {
     
     private MeshRenderer mesh_renderer;
     
-    // Start is called before the first frame update
     void Start() {
         UpdateHeight();
         mesh_renderer = GetComponent<MeshRenderer>();
@@ -33,12 +32,6 @@ public class BlockData : MonoBehaviour {
         UpdateHeight();
         if (mesh_renderer != null) UpdateMaterial();
         textbox.text = value.ToString();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     void UpdateMaterial() {
@@ -77,5 +70,12 @@ public class BlockData : MonoBehaviour {
     public void SetState(BlockState newState) {
         state = newState;
         UpdateMaterial();
+    }
+
+    public void SetValue(int newValue)
+    {
+        value = newValue;
+        textbox.text = newValue.ToString();
+        UpdateHeight();
     }
 }

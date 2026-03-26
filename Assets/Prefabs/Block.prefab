@@ -27,7 +27,7 @@ RectTransform:
   m_GameObject: {fileID: 1862596945994841168}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.55}
-  m_LocalScale: {x: 1, y: 0.15873015, z: 1}
+  m_LocalScale: {x: 1, y: 0.8333333, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7213342387619940507}
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 21
+  m_text: 4
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -191,7 +191,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7213342387619940507
 Transform:
   m_ObjectHideFlags: 0
@@ -201,8 +201,8 @@ Transform:
   m_GameObject: {fileID: 2423514503601474292}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.89, y: 3.15, z: 0}
-  m_LocalScale: {x: 1, y: 6.3, z: 1}
+  m_LocalPosition: {x: -3, y: 0.6, z: -1}
+  m_LocalScale: {x: 1, y: 1.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 932942111700921302}
@@ -292,7 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdb24363e0c794e4782f9b705d262b07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 21
+  value: 4
   state: 0
   unitHeight: 0.3
   textbox: {fileID: 2672961386213010006}

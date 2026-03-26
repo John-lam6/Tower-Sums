@@ -5,14 +5,22 @@ using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
 using DG.Tweening;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
+    public List<LevelData> levels;
+    private int currentLevel; 
+    public Object baseBlock;
+    public GameObject startingTowerBlock;
+    public GameObject goalTowerBlock;
+    private int startAmount;
+    private int goalAmount;
+    private float defaultTowerHeight = -1.5f;
+ 
     public GameObject addTower_GO;
-    public GameObject startTower_GO;
     public GameObject subTower_GO;
-    public GameObject targetTower_GO;
-    public TowerController startTower, addTower, subTower, targetTower;
+    public TowerController addTower, subTower;
     public Light dirLight;
     public Light startSpotLight;
     public Light addSpotlight;
@@ -54,8 +62,8 @@ public class GameManager : MonoBehaviour
         
         // show start tower
         startSpotLight.enabled = true;
-        towervalue = startTower.GetTotalValue();
-        result = startTower.GetTotalValue();
+        towervalue = startAmount;
+        result = startAmount;
             // display result
                 // shows the total value of the tower next to the tower, then displays current result
         yield return new WaitForSeconds(0.8f);
@@ -106,14 +114,24 @@ public class GameManager : MonoBehaviour
         subSpotlight.enabled = false;
         yield return textbox.transform.DOMoveX(8.37f, 0.5f).SetEase(Ease.InOutSine).WaitForCompletion();
         goalSpotlight.enabled = true;
-        towervalue = targetTower.GetTotalValue();
+        towervalue = goalAmount;
         textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
 
         yield return new WaitForSeconds(0.8f);
         // correct
-        if (result == targetTower.GetTotalValue()) {
+        if (result == goalAmount) {
             audiosource.PlayOneShot(correct_clip);
             textbox.color = Color.green;
+            yield return new WaitForSeconds(0.8f);
+            
+            currentLevel++;
+            if(currentLevel < levels.Count)
+            {
+                LoadLevel(levels[currentLevel]);
+            } else
+            {
+                // victory screen or something
+            }
         }
         // incorrect
         else {
@@ -132,16 +150,9 @@ public class GameManager : MonoBehaviour
         submitButton.image.color = Color.white;
         submitButton.interactable = true;
         textbox.enabled = false;
-        startTower = startTower_GO.GetComponent<TowerController>();
-        // addTower = addTower_GO.GetComponent<TowerController>();
-        // subTower = subTower_GO.GetComponent<TowerController>();
-        targetTower = targetTower_GO.GetComponent<TowerController>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+           
+        currentLevel = 0;
+        LoadLevel(levels[currentLevel]);
     }
 
     public void LoadLevel(LevelData level) {
@@ -159,5 +170,29 @@ public class GameManager : MonoBehaviour
                 subTower.gameObject.SetActive(true);
                 break;
         }
+
+        BlockData startingBlock = startingTowerBlock.GetComponent<BlockData>();
+        startAmount = level.startValue;
+        startingBlock.SetValue(startAmount);
+        startingTowerBlock.transform.position = new(startingTowerBlock.transform.position.x, defaultTowerHeight + (startAmount / 2.0f * startingBlock.unitHeight));
+
+        BlockData goalBlock = goalTowerBlock.GetComponent<BlockData>();
+        goalAmount = level.targetValue;
+        goalBlock.SetValue(goalAmount);
+        goalTowerBlock.transform.position = new(goalTowerBlock.transform.position.x, defaultTowerHeight + (goalAmount / 2.0f * goalBlock.unitHeight));
+
+        foreach(int blockValue in level.availableBlocks)
+        {
+            Instantiate(createBlock(blockValue));
+            // these should be put in the hotbar
+        }
+    }
+
+    private Object createBlock(int value)
+    {
+        Object newBlock = baseBlock;
+        BlockData newBlockData = newBlock.GetComponent<BlockData>();
+        newBlockData.SetValue(value);
+        return newBlock;  
     }
 }
