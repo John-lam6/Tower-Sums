@@ -709,6 +709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64835a162671aa447aec7b4584c1eac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blockMoveTime: 0.5
 --- !u!23 &264988843
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2196,6 +2197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64835a162671aa447aec7b4584c1eac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blockMoveTime: 0.5
 --- !u!114 &1152643569
 MonoBehaviour:
   m_ObjectHideFlags: 0

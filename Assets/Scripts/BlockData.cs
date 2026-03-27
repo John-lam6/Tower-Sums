@@ -17,6 +17,7 @@ public class BlockData : MonoBehaviour {
     public TextMeshPro textbox;
 
     [HideInInspector] public float targetHeight;
+    [HideInInspector] public bool hasTower;
     
     public Material default_outline;
     public Material addition_outline;
@@ -25,6 +26,7 @@ public class BlockData : MonoBehaviour {
     private MeshRenderer mesh_renderer;
     
     void Start() {
+        hasTower = false;
         UpdateHeight();
         mesh_renderer = GetComponent<MeshRenderer>();
         UpdateMaterial();

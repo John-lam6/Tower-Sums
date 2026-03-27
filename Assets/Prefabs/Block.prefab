@@ -296,6 +296,8 @@ MonoBehaviour:
   state: 0
   unitHeight: 0.3
   textbox: {fileID: 2672961386213010006}
+  targetHeight: 0.6
+  hasTower: 0
   default_outline: {fileID: 2100000, guid: f0f828a494e047647a45d20e42e7881a, type: 2}
   addition_outline: {fileID: 2100000, guid: fe5c0b21477b88845b9a15f14e17c2fc, type: 2}
   subtraction_outline: {fileID: 2100000, guid: c4e05b7e6372ab2439fe5d29312676e3, type: 2}

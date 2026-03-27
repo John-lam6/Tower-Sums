@@ -19,7 +19,7 @@ public class DropHandler : MonoBehaviour, IDropHandler
     public void OnDrop(PointerEventData eventData)
     {
         BlockData block = eventData.pointerDrag.GetComponent<BlockData>();
-        if(block)
+        if(block && !block.hasTower)
         {
             int towerHeight = tower.GetTotalValue();
             Vector3 targetPos = new(transform.position.x, boxCollider.bounds.min.y + ((towerHeight + block.value / 2.0f) * block.unitHeight), 0);
@@ -32,7 +32,7 @@ public class DropHandler : MonoBehaviour, IDropHandler
     public void OnDrag(PointerEventData eventData)
     {
         BlockData block = eventData.pointerDrag.GetComponent<BlockData>();
-        if(block && tower.GetTotalValue() > 0)
+        if(block && block.hasTower)
         {
             List<BlockData> blocks = tower.stackedBlocks;
             int index = tower.stackedBlocks.IndexOf(block);
