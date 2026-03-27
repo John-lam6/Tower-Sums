@@ -15,6 +15,8 @@ public class BlockData : MonoBehaviour {
     public BlockState state;
     public float unitHeight = 1f;
     public TextMeshPro textbox;
+
+    [HideInInspector] public float targetHeight;
     
     public Material default_outline;
     public Material addition_outline;
@@ -61,6 +63,7 @@ public class BlockData : MonoBehaviour {
         Vector3 pos = transform.position;
         pos.y = scale.y / 2f;
         transform.position = pos;
+        targetHeight = pos.y;
 
         if (textbox != null) {
             textbox.transform.localScale = new Vector3(1f, 1f / scale.y, 1f);

@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(BoxCollider))]
 public class DropHandler : MonoBehaviour, IDropHandler
 {
+    [SerializeField] private float blockMoveTime = 0.5f;
     private TowerController tower;
     private BoxCollider boxCollider;
     void Start()
@@ -22,8 +23,9 @@ public class DropHandler : MonoBehaviour, IDropHandler
         {
             int towerHeight = tower.GetTotalValue();
             Vector3 targetPos = new(transform.position.x, boxCollider.bounds.min.y + ((towerHeight + block.value / 2.0f) * block.unitHeight), 0);
-            eventData.pointerDrag.transform.DOMove(targetPos, 0.5f);
-            tower.AddBlock(block);   
+            tower.AddBlock(block);
+            block.targetHeight = targetPos.y;
+            block.gameObject.transform.DOMove(targetPos, blockMoveTime);
         }
     }
 
@@ -43,9 +45,9 @@ public class DropHandler : MonoBehaviour, IDropHandler
             // Make the blocks above fall down
             for(int i = index; i < blocks.Count; i++)
             {
-                blocks[i].transform.DOMoveY(blocks[i].transform.position.y - (block.value * block.unitHeight), 0.5f);
-            }    
-            
+                blocks[i].targetHeight -= block.value * block.unitHeight;
+                blocks[i].transform.DOMoveY(blocks[i].targetHeight, blockMoveTime);
+            }
         }
     }
 }
