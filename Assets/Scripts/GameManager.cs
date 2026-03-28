@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
  
     public GameObject addTower_GO;
     public GameObject subTower_GO;
+    public GameObject visualAdditionTower, visualSubtractionTower;
     public TowerController addTower, subTower;
     public Light dirLight;
     public Light startSpotLight;
@@ -160,18 +161,35 @@ public class GameManager : MonoBehaviour
     }
 
     public void LoadLevel(LevelData level) {
-        switch (level.mode) {
+        visualAdditionTower.SetActive(true);
+        visualSubtractionTower.SetActive(true);
+        switch (level.mode)
+        {
             case DifficultyMode.AdditionOnly:
                 addTower.gameObject.SetActive(true);
-                subTower.gameObject.SetActive(false);
+                subTower.gameObject.SetActive(true); // keep active
+                visualSubtractionTower.gameObject.SetActive(false);
+
+                additionDropHandler.SetDropEnabled(true);
+                subtractionDropHandler.SetDropEnabled(false);
                 break;
+
             case DifficultyMode.SubtractionOnly:
-                addTower.gameObject.SetActive(false);
+                addTower.gameObject.SetActive(true);
                 subTower.gameObject.SetActive(true);
+                visualAdditionTower.gameObject.SetActive(false);
+
+
+                additionDropHandler.SetDropEnabled(false);
+                subtractionDropHandler.SetDropEnabled(true);
                 break;
+
             case DifficultyMode.Both:
                 addTower.gameObject.SetActive(true);
                 subTower.gameObject.SetActive(true);
+
+                additionDropHandler.SetDropEnabled(true);
+                subtractionDropHandler.SetDropEnabled(true);
                 break;
         }
 

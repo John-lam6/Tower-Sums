@@ -359,8 +359,7 @@ Transform:
   m_LocalPosition: {x: -5.1349707, y: -9.572691, z: -0.20353027}
   m_LocalScale: {x: 3, y: 0.53902, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1152643571}
+  m_Children: []
   m_Father: {fileID: 1455890047}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &152432654
@@ -1266,144 +1265,6 @@ Transform:
   - {fileID: 1808780378}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &682728046
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 682728047}
-  - component: {fileID: 682728052}
-  - component: {fileID: 682728051}
-  - component: {fileID: 682728050}
-  - component: {fileID: 682728049}
-  - component: {fileID: 682728048}
-  m_Layer: 3
-  m_Name: Subtraction Area
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &682728047
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 682728046}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.009, y: 5.7882843, z: 2.5}
-  m_LocalScale: {x: 1, y: 10.822655, z: 0.1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 929436615}
-  m_Father: {fileID: 992694372}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &682728048
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 682728046}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 65ede6fd57133c0479e4dad971ad475b, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &682728049
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 682728046}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &682728050
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 682728046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64835a162671aa447aec7b4584c1eac5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blockMoveTime: 0.5
-  hoverLight: {fileID: 929436617}
-  isAdditionTower: 0
-  idleDragIntensity: 30
-  fullHoverIntensity: 100
---- !u!114 &682728051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 682728046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60876fe8d3e886c47a826b82b9a41c75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stackedBlocks: []
---- !u!65 &682728052
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 682728046}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1617,11 +1478,11 @@ Transform:
   m_GameObject: {fileID: 929436614}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5742911, y: -0, z: -0, w: 0.8186512}
-  m_LocalPosition: {x: -0.009, y: 1.0850881, z: -13.7}
-  m_LocalScale: {x: 0.33333334, y: 1.3084083, z: 0.1934483}
+  m_LocalPosition: {x: 0, y: 1.0850881, z: -13.7}
+  m_LocalScale: {x: 0.33333334, y: 1.3084081, z: 0.1934483}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 682728047}
+  m_Father: {fileID: 1152643571}
   m_LocalEulerAnglesHint: {x: 70.1, y: 0, z: 0}
 --- !u!114 &929436616
 MonoBehaviour:
@@ -2217,7 +2078,7 @@ Transform:
   m_LocalScale: {x: 3, y: 0.53902, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 682728047}
+  - {fileID: 1152643571}
   m_Father: {fileID: 1455890047}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1031505209
@@ -2582,7 +2443,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockMoveTime: 0.5
-  hoverLight: {fileID: 0}
+  hoverLight: {fileID: 929436617}
   isAdditionTower: 1
   idleDragIntensity: 0.8
   fullHoverIntensity: 2
@@ -2629,11 +2490,12 @@ Transform:
   m_GameObject: {fileID: 1152643565}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.8933332, y: 5.7882833, z: 2.5}
+  m_LocalPosition: {x: -0, y: 5.7882843, z: 2.5}
   m_LocalScale: {x: 1, y: 10.822655, z: 0.1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 152432653}
+  m_Children:
+  - {fileID: 929436615}
+  m_Father: {fileID: 992694372}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1190313141
 GameObject:
@@ -3016,15 +2878,17 @@ MonoBehaviour:
   spacing: 1.5
   addTower_GO: {fileID: 1067846398}
   subTower_GO: {fileID: 992694368}
+  visualAdditionTower: {fileID: 1067846398}
+  visualSubtractionTower: {fileID: 992694368}
   addTower: {fileID: 264988839}
-  subTower: {fileID: 682728051}
+  subTower: {fileID: 1152643569}
   dirLight: {fileID: 705507994}
   startSpotLight: {fileID: 172178187}
   addSpotlight: {fileID: 1406930342}
   subSpotlight: {fileID: 1744568114}
   goalSpotlight: {fileID: 1808780377}
   additionDropHandler: {fileID: 264988842}
-  subtractionDropHandler: {fileID: 682728050}
+  subtractionDropHandler: {fileID: 1152643568}
   textbox: {fileID: 1574654734}
   audiosource: {fileID: 280959568}
   correct_clip: {fileID: 8300000, guid: 111a887e4c67f924eb28ceea87344457, type: 3}

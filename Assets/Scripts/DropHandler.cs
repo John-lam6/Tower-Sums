@@ -13,109 +13,169 @@ public class DropHandler : MonoBehaviour, IDropHandler
     public bool isAdditionTower = true;
     public float idleDragIntensity = 0.8f;
     public float fullHoverIntensity = 2.0f;
+
     private TowerController tower;
     private BoxCollider boxCollider;
+
     void Start()
     {
-        tower = GetComponent<TowerController>();    
+        tower = GetComponent<TowerController>();
         boxCollider = GetComponent<BoxCollider>();
 
-        if (hoverLight != null) {
+        if (hoverLight != null)
+        {
             hoverLight.enabled = false;
         }
     }
+
+    public bool CanAcceptDrop()
+    {
+        return enabled &&
+               gameObject.activeInHierarchy &&
+               gameObject.layer == LayerMask.NameToLayer("Drop Zone") &&
+               boxCollider != null &&
+               boxCollider.enabled;
+    }
+
+    public void SetDropEnabled(bool value)
+    {
+        enabled = value;
+
+        Collider[] allColliders = GetComponentsInChildren<Collider>(true);
+        for (int i = 0; i < allColliders.Length; i++)
+        {
+            allColliders[i].enabled = value;
+        }
+
+        if (!value && hoverLight != null)
+        {
+            hoverLight.enabled = false;
+        }
+    }
+
     public void SetSoftGlow(bool glowing)
     {
         if (hoverLight == null) return;
+        if (!CanAcceptDrop()) return;
 
         hoverLight.enabled = glowing;
 
-        if (glowing) {
+        if (glowing)
+        {
             hoverLight.intensity = idleDragIntensity;
         }
     }
 
     public void SetHover(BlockData block, bool hovering)
     {
-        if (hoverLight != null) {
+        if (!CanAcceptDrop())
+        {
+            if (hoverLight != null)
+            {
+                hoverLight.enabled = false;
+            }
+            return;
+        }
+
+        if (hoverLight != null)
+        {
             hoverLight.enabled = hovering;
 
-            if (hovering) {
+            if (hovering)
+            {
                 hoverLight.intensity = fullHoverIntensity;
             }
         }
 
         if (block == null) return;
 
-        if (hovering) {
+        if (hovering)
+        {
             block.ApplyTowerScale();
 
             if (isAdditionTower) block.SetState(BlockState.OnAddition);
             else block.SetState(BlockState.OnSubtraction);
-        }
-        else {
-            if (!block.hasTower) {
-                block.SetState(BlockState.InHotbar);
-                block.ApplyHotbarScale();
-            }
         }
     }
+
     public void OnDrop(PointerEventData eventData)
     {
-        BlockData block = eventData.pointerDrag.GetComponent<BlockData>();
-        if (block)
+        if (!CanAcceptDrop())
         {
-            // remove from previous tower if needed
-            if (block.hasTower)
-            {
-                TowerController oldTower = block.transform.parent.GetComponent<TowerController>();
-                if (oldTower != null)
-                {
-                    oldTower.RemoveBlock(block);
-                }
-            }
-
-            block.hasTower = true;
-            block.ApplyTowerScale();
-
-            int towerHeight = tower.GetTotalValue();
-            Vector3 targetPos = new Vector3(
-                transform.position.x,
-                boxCollider.bounds.min.y + ((towerHeight + block.value / 2.0f) * block.unitHeight),
-                0
-            );
-
-            tower.AddBlock(block);
-
-            if (isAdditionTower) block.SetState(BlockState.OnAddition);
-            else block.SetState(BlockState.OnSubtraction);
-
-            block.targetHeight = targetPos.y;
-            block.transform.position = targetPos;
-
-            SetHover(block, false);
+            return;
         }
+
+        BlockData block = eventData.pointerDrag.GetComponent<BlockData>();
+        if (block == null) return;
+
+        block.transform.DOKill();
+
+        if (block.hasTower)
+        {
+            TowerController oldTower = block.transform.parent != null
+                ? block.transform.parent.GetComponent<TowerController>()
+                : null;
+
+            if (oldTower != null)
+            {
+                oldTower.RemoveBlock(block);
+            }
+        }
+
+        block.hasTower = true;
+        block.ApplyTowerScale();
+
+        int towerHeight = tower.GetTotalValue();
+        Vector3 targetPos = new Vector3(
+            transform.position.x,
+            boxCollider.bounds.min.y + ((towerHeight + block.value / 2.0f) * block.unitHeight),
+            0
+        );
+
+        tower.AddBlock(block);
+
+        if (isAdditionTower) block.SetState(BlockState.OnAddition);
+        else block.SetState(BlockState.OnSubtraction);
+
+        block.targetHeight = targetPos.y;
+
+        block.transform.DOMove(targetPos, blockMoveTime);
+
+        SetHover(block, false);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (!CanAcceptDrop())
+        {
+            return;
+        }
+
         BlockData block = eventData.pointerDrag.GetComponent<BlockData>();
-        if(block && block.hasTower)
+        if (block && block.hasTower)
         {
             List<BlockData> blocks = tower.stackedBlocks;
             int index = tower.stackedBlocks.IndexOf(block);
-            if(index < 0)
+
+            if (index < 0)
             {
-                return;  
-            } 
+                return;
+            }
+
             tower.RemoveBlock(block);
-    
-            // Make the blocks above fall down
-            for(int i = index; i < blocks.Count; i++)
+            block.hasTower = false;
+
+            for (int i = index; i < blocks.Count; i++)
             {
+                blocks[i].transform.DOKill();
                 blocks[i].targetHeight -= block.value * block.unitHeight;
                 blocks[i].transform.DOMoveY(blocks[i].targetHeight, blockMoveTime);
             }
         }
+    }
+
+    public float GetBlockMoveTime()
+    {
+        return blockMoveTime;
     }
 }
