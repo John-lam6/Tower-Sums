@@ -187,6 +187,8 @@ public class GameManager : MonoBehaviour
             case DifficultyMode.Both:
                 addTower.gameObject.SetActive(true);
                 subTower.gameObject.SetActive(true);
+                visualAdditionTower.SetActive(true);
+                visualSubtractionTower.SetActive(true);
 
                 additionDropHandler.SetDropEnabled(true);
                 subtractionDropHandler.SetDropEnabled(true);

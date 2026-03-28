@@ -15,4 +15,4 @@ MonoBehaviour:
   startValue: 1
   targetValue: 5
   availableBlocks: 020000000300000004000000
-  mode: 0
+  mode: 1
