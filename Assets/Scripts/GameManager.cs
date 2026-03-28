@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     private int startAmount;
     private int goalAmount;
     private float defaultTowerHeight = -1.5f;
+    public Transform hotbar;   // your Cube
+    public float spacing = 1.5f;
  
     public GameObject addTower_GO;
     public GameObject subTower_GO;
@@ -26,6 +28,8 @@ public class GameManager : MonoBehaviour
     public Light addSpotlight;
     public Light subSpotlight;
     public Light goalSpotlight;
+    public DropHandler additionDropHandler;
+    public DropHandler subtractionDropHandler;
 
     public TextMeshPro textbox;
     
@@ -181,10 +185,40 @@ public class GameManager : MonoBehaviour
         goalBlock.SetValue(goalAmount);
         goalTowerBlock.transform.position = new(goalTowerBlock.transform.position.x, defaultTowerHeight + (goalAmount / 2.0f * goalBlock.unitHeight));
 
+        // foreach(int blockValue in level.availableBlocks)
+        // {
+        //     Instantiate(createBlock(blockValue));
+        //     // these should be put in the hotbar
+        // }
+
+        int blockCount = 0;
+
         foreach(int blockValue in level.availableBlocks)
         {
-            Instantiate(createBlock(blockValue));
-            // these should be put in the hotbar
+            GameObject newBlock = Instantiate(baseBlock as GameObject);
+
+            // position using index
+            Vector3 offset = new Vector3(blockCount * 1.5f, 0f, -0.5f);
+            newBlock.transform.position = hotbar.position + offset;
+
+            BlockData blockData = newBlock.GetComponent<BlockData>();
+            blockData.isHotbarBlock = true;
+            blockData.hotbarPosition = hotbar.position + offset;
+            newBlock.transform.position = blockData.hotbarPosition;
+
+            blockData.hasTower = false;
+            blockData.SetState(BlockState.InHotbar);
+            blockData.SetValue(level.availableBlocks[blockCount]);
+            blockData.ApplyHotbarScale();
+
+            DragHandler dragHandler = newBlock.GetComponent<DragHandler>();
+            if (dragHandler != null)
+            {
+                dragHandler.additionDropZone = additionDropHandler;
+                dragHandler.subtractionDropZone = subtractionDropHandler;
+            }
+
+            blockCount++;
         }
     }
 
