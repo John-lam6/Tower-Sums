@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
 
     private bool isClicked = false;
     
+    
     public void OnSubmit() {
         if (!isClicked) StartCoroutine(OnSubmitCoroutine());
         isClicked = true;

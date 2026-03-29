@@ -2445,8 +2445,8 @@ MonoBehaviour:
   blockMoveTime: 0.5
   hoverLight: {fileID: 929436617}
   isAdditionTower: 0
-  idleDragIntensity: 0.8
-  fullHoverIntensity: 2
+  idleDragIntensity: 30
+  fullHoverIntensity: 100
 --- !u!114 &1152643569
 MonoBehaviour:
   m_ObjectHideFlags: 0
