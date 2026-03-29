@@ -2876,6 +2876,8 @@ MonoBehaviour:
   goalTowerBlock: {fileID: 1073917580}
   hotbar: {fileID: 1623296478}
   spacing: 1.5
+  add_text: {fileID: 934291117}
+  sub_text: {fileID: 516057255}
   addTower_GO: {fileID: 1067846398}
   subTower_GO: {fileID: 992694368}
   visualAdditionTower: {fileID: 1067846398}
