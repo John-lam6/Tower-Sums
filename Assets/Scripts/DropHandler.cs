@@ -142,26 +142,26 @@ public class DropHandler : MonoBehaviour, IDropHandler
         block.hasTower = true;
         block.ApplyTowerScale();
 
-        int towerHeight = tower.GetTotalValue();
+        tower.AddBlock(block);
+
+        int towerHeight = tower.GetTotalValue() - block.value;
+
         Vector3 targetPos = new Vector3(
             transform.position.x,
             boxCollider.bounds.min.y + ((towerHeight + block.value / 2.0f) * block.unitHeight),
             0
         );
 
-        tower.AddBlock(block);
-
         if (isAdditionTower) block.SetState(BlockState.OnAddition);
         else block.SetState(BlockState.OnSubtraction);
 
         block.targetHeight = targetPos.y;
-
         block.transform.DOMove(targetPos, blockMoveTime);
 
         SetHover(block, false);
     }
 
-    public void OnDrag(PointerEventData eventData)
+   public void OnDrag(PointerEventData eventData)
     {
         if (!CanAcceptDrop())
         {
@@ -171,7 +171,6 @@ public class DropHandler : MonoBehaviour, IDropHandler
         BlockData block = eventData.pointerDrag.GetComponent<BlockData>();
         if (block && block.hasTower)
         {
-            List<BlockData> blocks = tower.stackedBlocks;
             int index = tower.stackedBlocks.IndexOf(block);
 
             if (index < 0)
@@ -182,11 +181,12 @@ public class DropHandler : MonoBehaviour, IDropHandler
             tower.RemoveBlock(block);
             block.hasTower = false;
 
-            for (int i = index; i < blocks.Count; i++)
+            for (int i = index; i < tower.stackedBlocks.Count; i++)
             {
-                blocks[i].transform.DOKill();
-                blocks[i].targetHeight -= block.value * block.unitHeight;
-                blocks[i].transform.DOMoveY(blocks[i].targetHeight, blockMoveTime);
+                BlockData stackedBlock = tower.stackedBlocks[i];
+                stackedBlock.transform.DOKill();
+                stackedBlock.targetHeight -= block.value * block.unitHeight;
+                stackedBlock.transform.DOMoveY(stackedBlock.targetHeight, blockMoveTime);
             }
         }
     }
