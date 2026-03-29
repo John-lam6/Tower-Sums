@@ -91,10 +91,27 @@ public class DropHandler : MonoBehaviour, IDropHandler
 
         if (hovering)
         {
-            block.ApplyTowerScale();
-
-            if (isAdditionTower) block.SetState(BlockState.OnAddition);
-            else block.SetState(BlockState.OnSubtraction);
+            if (isAdditionTower)
+            {
+                if (block.state != BlockState.OnAddition)
+                {
+                    block.SetState(BlockState.OnAddition);
+                }
+            }
+            else
+            {
+                if (block.state != BlockState.OnSubtraction)
+                {
+                    block.SetState(BlockState.OnSubtraction);
+                }
+            }
+        }
+        else
+        {
+            if (!block.hasTower)
+            {
+                block.SetNeutralDragState();
+            }
         }
     }
 

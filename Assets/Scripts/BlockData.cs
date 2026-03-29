@@ -107,6 +107,11 @@ public class BlockData : MonoBehaviour {
         UpdateMaterial();
     }
 
+    public void SetNeutralDragState() {
+        state = BlockState.InHotbar;
+        UpdateMaterial();
+    }
+
     public void SetValue(int newValue)
     {
         value = Mathf.Max(1, newValue);
