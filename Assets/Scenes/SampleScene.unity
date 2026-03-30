@@ -359,8 +359,7 @@ Transform:
   m_LocalPosition: {x: -5.1349707, y: -9.572691, z: -0.20353027}
   m_LocalScale: {x: 3, y: 0.53902, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1152643571}
+  m_Children: []
   m_Father: {fileID: 1455890047}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &152432654
@@ -694,7 +693,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 5.7882833, z: 2.5}
   m_LocalScale: {x: 1, y: 10.822655, z: 0.1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 981710504}
   m_Father: {fileID: 1067846402}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &264988842
@@ -710,6 +710,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockMoveTime: 0.5
+  hoverLight: {fileID: 981710506}
+  isAdditionTower: 1
+  idleDragIntensity: 30
+  fullHoverIntensity: 100
 --- !u!23 &264988843
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1033,6 +1037,10 @@ PrefabInstance:
     - target: {fileID: 2423514503601474292, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
       propertyPath: m_Name
       value: Starting Tower
+      objectReference: {fileID: 0}
+    - target: {fileID: 4389057368960103421, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
+      propertyPath: isHotbarBlock
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7213342387619940507, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1443,6 +1451,124 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &929436614
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 929436615}
+  - component: {fileID: 929436617}
+  - component: {fileID: 929436616}
+  m_Layer: 0
+  m_Name: SubTowerHighLight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &929436615
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929436614}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.5742911, y: -0, z: -0, w: 0.8186512}
+  m_LocalPosition: {x: 0, y: 1.0850881, z: -13.7}
+  m_LocalScale: {x: 0.33333334, y: 1.3084081, z: 0.1934483}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1152643571}
+  m_LocalEulerAnglesHint: {x: 70.1, y: 0, z: 0}
+--- !u!114 &929436616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929436614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+--- !u!108 &929436617
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929436614}
+  m_Enabled: 0
+  serializedVersion: 10
+  m_Type: 0
+  m_Shape: 0
+  m_Color: {r: 1, g: 0.85882354, b: 0.5568628, a: 1}
+  m_Intensity: 60
+  m_Range: 50
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
 --- !u!1 &934291115
 GameObject:
   m_ObjectHideFlags: 0
@@ -1731,6 +1857,124 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_MaxRayIntersections: 0
+--- !u!1 &981710503
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 981710504}
+  - component: {fileID: 981710506}
+  - component: {fileID: 981710505}
+  m_Layer: 0
+  m_Name: AddTowerHighLight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &981710504
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981710503}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.5742911, y: -0, z: -0, w: 0.8186512}
+  m_LocalPosition: {x: 0, y: 1.0850883, z: -13.7}
+  m_LocalScale: {x: 0.33333334, y: 1.3084083, z: 0.1934483}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 264988841}
+  m_LocalEulerAnglesHint: {x: 70.1, y: 0, z: 0}
+--- !u!114 &981710505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981710503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+--- !u!108 &981710506
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981710503}
+  m_Enabled: 0
+  serializedVersion: 10
+  m_Type: 0
+  m_Shape: 0
+  m_Color: {r: 1, g: 0.85882354, b: 0.5566037, a: 1}
+  m_Intensity: 60
+  m_Range: 50
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
 --- !u!1 &992694368
 GameObject:
   m_ObjectHideFlags: 0
@@ -1833,7 +2077,8 @@ Transform:
   m_LocalPosition: {x: 3.5450292, y: -9.572691, z: -0.20353027}
   m_LocalScale: {x: 3, y: 0.53902, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1152643571}
   m_Father: {fileID: 1455890047}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1031505209
@@ -2198,6 +2443,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockMoveTime: 0.5
+  hoverLight: {fileID: 929436617}
+  isAdditionTower: 0
+  idleDragIntensity: 30
+  fullHoverIntensity: 100
 --- !u!114 &1152643569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2241,11 +2490,12 @@ Transform:
   m_GameObject: {fileID: 1152643565}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.8933332, y: 5.7882833, z: 2.5}
+  m_LocalPosition: {x: -0, y: 5.7882843, z: 2.5}
   m_LocalScale: {x: 1, y: 10.822655, z: 0.1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 152432653}
+  m_Children:
+  - {fileID: 929436615}
+  m_Father: {fileID: 992694372}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1190313141
 GameObject:
@@ -2624,8 +2874,14 @@ MonoBehaviour:
   baseBlock: {fileID: 2423514503601474292, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
   startingTowerBlock: {fileID: 327742103}
   goalTowerBlock: {fileID: 1073917580}
+  hotbar: {fileID: 1623296478}
+  spacing: 1.5
+  add_text: {fileID: 934291117}
+  sub_text: {fileID: 516057255}
   addTower_GO: {fileID: 1067846398}
   subTower_GO: {fileID: 992694368}
+  visualAdditionTower: {fileID: 1067846398}
+  visualSubtractionTower: {fileID: 992694368}
   addTower: {fileID: 264988839}
   subTower: {fileID: 1152643569}
   dirLight: {fileID: 705507994}
@@ -2633,6 +2889,8 @@ MonoBehaviour:
   addSpotlight: {fileID: 1406930342}
   subSpotlight: {fileID: 1744568114}
   goalSpotlight: {fileID: 1808780377}
+  additionDropHandler: {fileID: 264988842}
+  subtractionDropHandler: {fileID: 1152643568}
   textbox: {fileID: 1574654734}
   audiosource: {fileID: 280959568}
   correct_clip: {fileID: 8300000, guid: 111a887e4c67f924eb28ceea87344457, type: 3}
@@ -2877,7 +3135,7 @@ GameObject:
   - component: {fileID: 1623296476}
   - component: {fileID: 1623296475}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Hotbar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

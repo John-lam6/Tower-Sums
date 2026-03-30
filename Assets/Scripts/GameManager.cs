@@ -10,22 +10,30 @@ using Unity.VisualScripting;
 public class GameManager : MonoBehaviour
 {
     public List<LevelData> levels;
-    private int currentLevel; 
+    private int currentLevel;
+    private LevelData currLevelData;
     public Object baseBlock;
     public GameObject startingTowerBlock;
     public GameObject goalTowerBlock;
     private int startAmount;
     private int goalAmount;
     private float defaultTowerHeight = -1.5f;
- 
+    public Transform hotbar;   // your Cube
+    public float spacing = 1.5f;
+
+    public TextMeshProUGUI add_text;
+    public TextMeshProUGUI sub_text;
     public GameObject addTower_GO;
     public GameObject subTower_GO;
+    public GameObject visualAdditionTower, visualSubtractionTower;
     public TowerController addTower, subTower;
     public Light dirLight;
     public Light startSpotLight;
     public Light addSpotlight;
     public Light subSpotlight;
     public Light goalSpotlight;
+    public DropHandler additionDropHandler;
+    public DropHandler subtractionDropHandler;
 
     public TextMeshPro textbox;
     
@@ -39,6 +47,7 @@ public class GameManager : MonoBehaviour
     public Button submitButton;
 
     private bool isClicked = false;
+    
     
     public void OnSubmit() {
         if (!isClicked) StartCoroutine(OnSubmitCoroutine());
@@ -69,45 +78,52 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.8f);
         audiosource.PlayOneShot(value1_clip);
         textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
-                
-        // show add tower
+               
+        if (currLevelData != null && (currLevelData.mode == DifficultyMode.AdditionOnly || currLevelData.mode == DifficultyMode.Both)) {
+            // show add tower
             // DoTween the textbox of the current result with an Ease in and an Ease out to the next tower
-        yield return new WaitForSeconds(0.8f);
-        textbox.text = "Tower Value: ---" + "\nResult: " + result.ToString();
-        startSpotLight.enabled = false;
-        yield return textbox.transform.DOMoveX(0.16f, 0.5f).SetEase(Ease.InOutSine).WaitForCompletion();
-        addSpotlight.enabled = true;
-        towervalue = addTower.GetTotalValue();
+            yield return new WaitForSeconds(0.8f);
+            textbox.text = "Tower Value: ---" + "\nResult: " + result.ToString();
+            startSpotLight.enabled = false;
+            yield return textbox.transform.DOMoveX(0.16f, 0.5f).SetEase(Ease.InOutSine).WaitForCompletion();
+            addSpotlight.enabled = true;
+            towervalue = addTower.GetTotalValue();
             // display result
-                // shows the total value of the tower next to the tower, then displays current result
-        yield return new WaitForSeconds(0.65f);
-        audiosource.PlayOneShot(value1_clip);
-        //textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
-        textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString() + " + " + towervalue.ToString();
-        result += addTower.GetTotalValue();
-        yield return new WaitForSeconds(0.65f);
-        audiosource.PlayOneShot(value2_clip);
-        textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
-        
-        // show sub tower
+            // shows the total value of the tower next to the tower, then displays current result
+            yield return new WaitForSeconds(0.65f);
+            audiosource.PlayOneShot(value1_clip);
+            //textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
+            textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString() + " + " +
+                           towervalue.ToString();
+            result += addTower.GetTotalValue();
+            yield return new WaitForSeconds(0.65f);
+            audiosource.PlayOneShot(value2_clip);
+            textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
+        }
+
+        if (currLevelData != null && (currLevelData.mode == DifficultyMode.SubtractionOnly ||
+                                      currLevelData.mode == DifficultyMode.Both)) {
+            // show sub tower
             // DoTween the textbox of the current result with an Ease in and an Ease out to the next tower
-        yield return new WaitForSeconds(0.8f);
-        textbox.text = "Tower Value: ---" + "\nResult: " + result.ToString();
-        addSpotlight.enabled = false;
-        yield return textbox.transform.DOMoveX(3.9f, 0.5f).SetEase(Ease.InOutSine).WaitForCompletion();
-        subSpotlight.enabled = true;
-        towervalue = subTower.GetTotalValue();
+            yield return new WaitForSeconds(0.8f);
+            textbox.text = "Tower Value: ---" + "\nResult: " + result.ToString();
+            addSpotlight.enabled = false;
+            yield return textbox.transform.DOMoveX(3.9f, 0.5f).SetEase(Ease.InOutSine).WaitForCompletion();
+            subSpotlight.enabled = true;
+            towervalue = subTower.GetTotalValue();
             // display result
-                // shows the total value of the tower next to the tower, then displays current result
-        yield return new WaitForSeconds(0.65f);
-        audiosource.PlayOneShot(value1_clip);
-        //textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
-        textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString() + " - " + towervalue.ToString();
-        result -= subTower.GetTotalValue();
-        yield return new WaitForSeconds(0.65f);
-        audiosource.PlayOneShot(value2_clip);
-        textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
-                
+            // shows the total value of the tower next to the tower, then displays current result
+            yield return new WaitForSeconds(0.65f);
+            audiosource.PlayOneShot(value1_clip);
+            //textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
+            textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString() + " - " +
+                           towervalue.ToString();
+            result -= subTower.GetTotalValue();
+            yield return new WaitForSeconds(0.65f);
+            audiosource.PlayOneShot(value2_clip);
+            textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
+        }
+
         // show goal tower
         yield return new WaitForSeconds(0.8f);
         textbox.text = "Tower Value: ---" + "\nResult: " + result.ToString();
@@ -156,18 +172,43 @@ public class GameManager : MonoBehaviour
     }
 
     public void LoadLevel(LevelData level) {
-        switch (level.mode) {
+        currLevelData = level;
+        visualAdditionTower.SetActive(true);
+        visualSubtractionTower.SetActive(true);
+        switch (level.mode)
+        {
             case DifficultyMode.AdditionOnly:
                 addTower.gameObject.SetActive(true);
-                subTower.gameObject.SetActive(false);
+                subTower.gameObject.SetActive(true); // keep active
+                visualSubtractionTower.gameObject.SetActive(false);
+                add_text.gameObject.SetActive(true);
+                sub_text.gameObject.SetActive(false);
+                
+                additionDropHandler.SetDropEnabled(true);
+                subtractionDropHandler.SetDropEnabled(false);
                 break;
+
             case DifficultyMode.SubtractionOnly:
-                addTower.gameObject.SetActive(false);
+                addTower.gameObject.SetActive(true);
                 subTower.gameObject.SetActive(true);
+                visualAdditionTower.gameObject.SetActive(false);
+                add_text.gameObject.SetActive(false);
+                sub_text.gameObject.SetActive(true);
+
+                additionDropHandler.SetDropEnabled(false);
+                subtractionDropHandler.SetDropEnabled(true);
                 break;
+
             case DifficultyMode.Both:
                 addTower.gameObject.SetActive(true);
                 subTower.gameObject.SetActive(true);
+                visualAdditionTower.SetActive(true);
+                visualSubtractionTower.SetActive(true);
+                add_text.gameObject.SetActive(true);
+                sub_text.gameObject.SetActive(true);
+
+                additionDropHandler.SetDropEnabled(true);
+                subtractionDropHandler.SetDropEnabled(true);
                 break;
         }
 
@@ -181,10 +222,40 @@ public class GameManager : MonoBehaviour
         goalBlock.SetValue(goalAmount);
         goalTowerBlock.transform.position = new(goalTowerBlock.transform.position.x, defaultTowerHeight + (goalAmount / 2.0f * goalBlock.unitHeight));
 
+        // foreach(int blockValue in level.availableBlocks)
+        // {
+        //     Instantiate(createBlock(blockValue));
+        //     // these should be put in the hotbar
+        // }
+
+        int blockCount = 0;
+
         foreach(int blockValue in level.availableBlocks)
         {
-            Instantiate(createBlock(blockValue));
-            // these should be put in the hotbar
+            GameObject newBlock = Instantiate(baseBlock as GameObject);
+
+            // position using index
+            Vector3 offset = new Vector3(blockCount * 1.5f, 0f, -0.5f);
+            newBlock.transform.position = hotbar.position + offset;
+
+            BlockData blockData = newBlock.GetComponent<BlockData>();
+            blockData.isHotbarBlock = true;
+            blockData.hotbarPosition = hotbar.position + offset;
+            newBlock.transform.position = blockData.hotbarPosition;
+
+            blockData.hasTower = false;
+            blockData.SetState(BlockState.InHotbar);
+            blockData.SetValue(level.availableBlocks[blockCount]);
+            blockData.ApplyHotbarScale();
+
+            DragHandler dragHandler = newBlock.GetComponent<DragHandler>();
+            if (dragHandler != null)
+            {
+                dragHandler.additionDropZone = additionDropHandler;
+                dragHandler.subtractionDropZone = subtractionDropHandler;
+            }
+
+            blockCount++;
         }
     }
 

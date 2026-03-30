@@ -24,9 +24,11 @@ public class TowerController : MonoBehaviour
     }
 
     public void AddBlock(BlockData block) {
+    if (!stackedBlocks.Contains(block)) {
         stackedBlocks.Add(block);
-        block.hasTower = true;
     }
+    block.hasTower = true;
+}
 
     public void RemoveBlock(BlockData block) {
         stackedBlocks.Remove(block);
