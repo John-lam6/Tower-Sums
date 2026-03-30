@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour
         if (result == goalAmount) {
             audiosource.PlayOneShot(correct_clip);
             textbox.color = Color.green;
-            yield return new WaitForSeconds(0.8f);
+            yield return new WaitForSeconds(1.6f);
             
             currentLevel++;
             if(currentLevel < levels.Count)
@@ -156,10 +156,12 @@ public class GameManager : MonoBehaviour
         else {
             audiosource.PlayOneShot(wrong_clip);
             textbox.color = Color.red;
+            yield return new WaitForSeconds(1.6f);
         }
 
         goalSpotlight.enabled = false;
         dirLight.enabled = true;
+        textbox.enabled = false;
         submitButton.image.color = Color.white;
         submitButton.interactable = true;
         isClicked = false;
