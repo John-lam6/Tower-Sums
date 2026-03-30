@@ -34,4 +34,9 @@ public class TowerController : MonoBehaviour
         stackedBlocks.Remove(block);
         block.hasTower = false;
     }
+
+    public void ClearBlocks()
+    {
+        stackedBlocks.Clear();
+    }
 }

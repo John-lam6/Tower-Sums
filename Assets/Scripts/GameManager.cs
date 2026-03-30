@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private int currentLevel;
     private LevelData currLevelData;
     public Object baseBlock;
+    private List<Object> activeBlocks = new();
     public GameObject startingTowerBlock;
     public GameObject goalTowerBlock;
     private int startAmount;
@@ -107,6 +108,7 @@ public class GameManager : MonoBehaviour
             // DoTween the textbox of the current result with an Ease in and an Ease out to the next tower
             yield return new WaitForSeconds(0.8f);
             textbox.text = "Tower Value: ---" + "\nResult: " + result.ToString();
+            startSpotLight.enabled = false;
             addSpotlight.enabled = false;
             yield return textbox.transform.DOMoveX(3.9f, 0.5f).SetEase(Ease.InOutSine).WaitForCompletion();
             subSpotlight.enabled = true;
@@ -127,6 +129,7 @@ public class GameManager : MonoBehaviour
         // show goal tower
         yield return new WaitForSeconds(0.8f);
         textbox.text = "Tower Value: ---" + "\nResult: " + result.ToString();
+        addSpotlight.enabled = false;
         subSpotlight.enabled = false;
         yield return textbox.transform.DOMoveX(8.37f, 0.5f).SetEase(Ease.InOutSine).WaitForCompletion();
         goalSpotlight.enabled = true;
@@ -154,6 +157,12 @@ public class GameManager : MonoBehaviour
             audiosource.PlayOneShot(wrong_clip);
             textbox.color = Color.red;
         }
+
+        goalSpotlight.enabled = false;
+        dirLight.enabled = true;
+        submitButton.image.color = Color.white;
+        submitButton.interactable = true;
+        isClicked = false;
     }
 
     public void resetClicked() {
@@ -173,42 +182,39 @@ public class GameManager : MonoBehaviour
 
     public void LoadLevel(LevelData level) {
         currLevelData = level;
-        visualAdditionTower.SetActive(true);
-        visualSubtractionTower.SetActive(true);
-        switch (level.mode)
+
+        // Clear blocks from previous level
+        if(activeBlocks.Count > 0)
         {
+            foreach(Object block in activeBlocks)
+            {
+                Destroy(block);
+            }
+            activeBlocks.Clear();
+        }
+        addTower.ClearBlocks();
+        subTower.ClearBlocks();
+
+        switch (level.mode) {
             case DifficultyMode.AdditionOnly:
-                addTower.gameObject.SetActive(true);
-                subTower.gameObject.SetActive(true); // keep active
-                visualSubtractionTower.gameObject.SetActive(false);
+                addTower.transform.parent.gameObject.SetActive(true);
                 add_text.gameObject.SetActive(true);
+                subTower.transform.parent.gameObject.SetActive(false);
                 sub_text.gameObject.SetActive(false);
-                
-                additionDropHandler.SetDropEnabled(true);
-                subtractionDropHandler.SetDropEnabled(false);
                 break;
 
             case DifficultyMode.SubtractionOnly:
-                addTower.gameObject.SetActive(true);
-                subTower.gameObject.SetActive(true);
-                visualAdditionTower.gameObject.SetActive(false);
+                addTower.transform.parent.gameObject.SetActive(false);
                 add_text.gameObject.SetActive(false);
+                subTower.transform.parent.gameObject.SetActive(true);
                 sub_text.gameObject.SetActive(true);
-
-                additionDropHandler.SetDropEnabled(false);
-                subtractionDropHandler.SetDropEnabled(true);
                 break;
 
             case DifficultyMode.Both:
-                addTower.gameObject.SetActive(true);
-                subTower.gameObject.SetActive(true);
-                visualAdditionTower.SetActive(true);
-                visualSubtractionTower.SetActive(true);
+                addTower.transform.parent.gameObject.SetActive(true);
                 add_text.gameObject.SetActive(true);
+                subTower.transform.parent.gameObject.SetActive(true);
                 sub_text.gameObject.SetActive(true);
-
-                additionDropHandler.SetDropEnabled(true);
-                subtractionDropHandler.SetDropEnabled(true);
                 break;
         }
 
@@ -256,13 +262,14 @@ public class GameManager : MonoBehaviour
             }
 
             blockCount++;
+            activeBlocks.Add(newBlock);
         }
     }
 
     private Object createBlock(int value)
     {
         Object newBlock = baseBlock;
-        BlockData newBlockData = newBlock.GetComponent<BlockData>();
+        BlockData newBlockData = newBlock.GameObject().GetComponent<BlockData>();
         newBlockData.SetValue(value);
         return newBlock;  
     }

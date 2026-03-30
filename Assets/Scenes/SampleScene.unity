@@ -1048,7 +1048,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7213342387619940507, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.6
+      value: 1.0500001
       objectReference: {fileID: 0}
     - target: {fileID: 7213342387619940507, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2311,7 +2311,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7213342387619940507, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.6
+      value: 1.0500001
       objectReference: {fileID: 0}
     - target: {fileID: 7213342387619940507, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2871,6 +2871,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - {fileID: 11400000, guid: db1caa17443fe544cbe0dd2bdde2afe5, type: 2}
+  - {fileID: 11400000, guid: b1791768f7d099147840807fca0de516, type: 2}
+  - {fileID: 11400000, guid: 72926ebac5525ec46a0af175bd3bd51a, type: 2}
   baseBlock: {fileID: 2423514503601474292, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
   startingTowerBlock: {fileID: 327742103}
   goalTowerBlock: {fileID: 1073917580}
