@@ -241,7 +241,7 @@ public class GameManager : MonoBehaviour
             GameObject newBlock = Instantiate(baseBlock as GameObject);
 
             // position using index
-            Vector3 offset = new Vector3(blockCount * 1.5f, 0f, -0.5f);
+            Vector3 offset = new Vector3(blockCount * 1.5f - 3.0f, 0f, -0.5f);
             newBlock.transform.position = hotbar.position + offset;
 
             BlockData blockData = newBlock.GetComponent<BlockData>();
