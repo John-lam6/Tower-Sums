@@ -14,11 +14,10 @@ public class GameManager : MonoBehaviour
     private LevelData currLevelData;
     public Object baseBlock;
     private List<Object> activeBlocks = new();
-    public GameObject startingTowerBlock;
-    public GameObject goalTowerBlock;
+    public BlockData startBlock;
+    public BlockData goalBlock;
     private int startAmount;
     private int goalAmount;
-    private float defaultTowerHeight = -1.5f;
     public Transform hotbar;   // your Cube
     public float spacing = 1.5f;
 
@@ -61,6 +60,7 @@ public class GameManager : MonoBehaviour
         textbox.color = Color.white;
         int towervalue, result;
         textbox.transform.position = new Vector3(-5.23f, 5.42f, 0.1f);
+        textbox.text = "Tower Value: ---" + "\nResult: ---";
         textbox.enabled = true;
         goalSpotlight.enabled = false;
         dirLight.enabled = false;
@@ -97,7 +97,11 @@ public class GameManager : MonoBehaviour
             textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString() + " + " +
                            towervalue.ToString();
             result += addTower.GetTotalValue();
+            
+            StartCoroutine(addTower.MergeAddTower());
             yield return new WaitForSeconds(0.65f);
+            
+            // yield return new WaitForSeconds(0.65f);
             audiosource.PlayOneShot(value2_clip);
             textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
         }
@@ -121,7 +125,11 @@ public class GameManager : MonoBehaviour
             textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString() + " - " +
                            towervalue.ToString();
             result -= subTower.GetTotalValue();
+            
+            StartCoroutine(subTower.MergeSubtractTower());
             yield return new WaitForSeconds(0.65f);
+
+            // yield return new WaitForSeconds(0.65f);
             audiosource.PlayOneShot(value2_clip);
             textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
         }
@@ -157,6 +165,10 @@ public class GameManager : MonoBehaviour
             audiosource.PlayOneShot(wrong_clip);
             textbox.color = Color.red;
             yield return new WaitForSeconds(1.6f);
+            startBlock.SetValue(currLevelData.startValue);
+            // startBlock.ResetTowerHeight();
+            addTower.ResetBlockPositions();
+            subTower.ResetBlockPositions();
         }
 
         goalSpotlight.enabled = false;
@@ -220,15 +232,15 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        BlockData startingBlock = startingTowerBlock.GetComponent<BlockData>();
         startAmount = level.startValue;
-        startingBlock.SetValue(startAmount);
-        startingTowerBlock.transform.position = new(startingTowerBlock.transform.position.x, defaultTowerHeight + (startAmount / 2.0f * startingBlock.unitHeight));
+        startBlock.SetValue(startAmount);
+        // startingTowerBlock.transform.position = new(startingTowerBlock.transform.position.x, defaultTowerHeight + (startAmount / 2.0f * startingBlock.unitHeight));
+        // startBlock.ResetTowerHeight();
 
-        BlockData goalBlock = goalTowerBlock.GetComponent<BlockData>();
         goalAmount = level.targetValue;
         goalBlock.SetValue(goalAmount);
-        goalTowerBlock.transform.position = new(goalTowerBlock.transform.position.x, defaultTowerHeight + (goalAmount / 2.0f * goalBlock.unitHeight));
+        // goalTowerBlock.transform.position = new(goalTowerBlock.transform.position.x, defaultTowerHeight + (goalAmount / 2.0f * goalBlock.unitHeight));
+        // goalBlock.ResetTowerHeight();
 
         // foreach(int blockValue in level.availableBlocks)
         // {

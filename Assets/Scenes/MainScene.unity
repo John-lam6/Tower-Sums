@@ -375,6 +375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stackedBlocks: []
+  startBlock: {fileID: 0}
 --- !u!1 &172178185
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,6 +661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stackedBlocks: []
+  startBlock: {fileID: 327742104}
 --- !u!65 &264988840
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1036,13 +1038,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 932942111700921302, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.47619045
+      objectReference: {fileID: 0}
     - target: {fileID: 2423514503601474292, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
       propertyPath: m_Name
       value: Starting Tower
       objectReference: {fileID: 0}
+    - target: {fileID: 2672961386213010006, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
+      propertyPath: m_text
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4389057368960103421, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
       propertyPath: isHotbarBlock
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7213342387619940507, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.1000001
       objectReference: {fileID: 0}
     - target: {fileID: 7213342387619940507, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1084,6 +1098,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8014820001106753846, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 164496422497370537, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
     m_RemovedGameObjects: []
@@ -1093,11 +1111,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
---- !u!1 &327742103 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2423514503601474292, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
+--- !u!114 &327742104 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4389057368960103421, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
   m_PrefabInstance: {fileID: 327742102}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdb24363e0c794e4782f9b705d262b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &516057253
 GameObject:
   m_ObjectHideFlags: 0
@@ -2303,9 +2327,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 932942111700921302, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.47619045
+      objectReference: {fileID: 0}
     - target: {fileID: 2423514503601474292, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
       propertyPath: m_Name
       value: Goal Tower
+      objectReference: {fileID: 0}
+    - target: {fileID: 2672961386213010006, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
+      propertyPath: m_text
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7213342387619940507, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.1000001
       objectReference: {fileID: 0}
     - target: {fileID: 7213342387619940507, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2356,11 +2392,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
---- !u!1 &1073917580 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2423514503601474292, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
+--- !u!114 &1073917581 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4389057368960103421, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
   m_PrefabInstance: {fileID: 1073917579}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdb24363e0c794e4782f9b705d262b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1152643565
 GameObject:
   m_ObjectHideFlags: 0
@@ -2464,6 +2506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stackedBlocks: []
+  startBlock: {fileID: 327742104}
 --- !u!65 &1152643570
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2620,6 +2663,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stackedBlocks: []
+  startBlock: {fileID: 0}
 --- !u!1 &1406869025
 GameObject:
   m_ObjectHideFlags: 0
@@ -2878,8 +2922,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b1791768f7d099147840807fca0de516, type: 2}
   - {fileID: 11400000, guid: 72926ebac5525ec46a0af175bd3bd51a, type: 2}
   baseBlock: {fileID: 2423514503601474292, guid: b2ef49bbfb52a924fa9e277562ae979f, type: 3}
-  startingTowerBlock: {fileID: 327742103}
-  goalTowerBlock: {fileID: 1073917580}
+  startBlock: {fileID: 327742104}
+  goalBlock: {fileID: 1073917581}
   hotbar: {fileID: 1623296478}
   spacing: 1.5
   add_text: {fileID: 934291117}

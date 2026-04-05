@@ -15,6 +15,7 @@ public class BlockData : MonoBehaviour {
     public BlockState state;
     public float unitHeight = 1f;
     public float hotbarHeight = 0.6f;
+    public float defaultTowerHeight = -1.5f;
     private Vector3 originalScale;
     public TextMeshPro textbox;
 
@@ -116,15 +117,18 @@ public class BlockData : MonoBehaviour {
     {
         value = Mathf.Max(1, newValue);
         textbox.text = value.ToString();
-
-        if (hasTower) {
-            ApplyTowerScale();
-        }
-        else if (isHotbarBlock) {
+        
+        if (isHotbarBlock) {
             ApplyHotbarScale();
         }
         else {
             UpdateHeight();
+            ResetTowerHeight();
         }
+    }
+
+    public void ResetTowerHeight()
+    {
+        transform.position = new(transform.position.x, defaultTowerHeight + (value / 2.0f * unitHeight));
     }
 }
