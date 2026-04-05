@@ -9,6 +9,8 @@ using UnityEngine.EventSystems;
 public class DropHandler : MonoBehaviour, IDropHandler
 {
     [SerializeField] private float blockMoveTime = 0.5f;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip placeSound;
     public Light hoverLight;
     public bool isAdditionTower = true;
     public float idleDragIntensity = 0.8f;
@@ -156,7 +158,7 @@ public class DropHandler : MonoBehaviour, IDropHandler
         else block.SetState(BlockState.OnSubtraction);
 
         block.targetHeight = targetPos.y;
-        block.transform.DOMove(targetPos, blockMoveTime);
+        block.transform.DOMove(targetPos, blockMoveTime).OnComplete(() => audioSource.PlayOneShot(placeSound));
 
         SetHover(block, false);
     }

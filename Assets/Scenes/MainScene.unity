@@ -710,6 +710,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockMoveTime: 0.5
+  audioSource: {fileID: 280959568}
+  placeSound: {fileID: 8300000, guid: efe85ce1c5b4dae41b1f4a1202fbf4a3, type: 3}
   hoverLight: {fileID: 981710506}
   isAdditionTower: 1
   idleDragIntensity: 30
@@ -2443,6 +2445,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockMoveTime: 0.5
+  audioSource: {fileID: 280959568}
+  placeSound: {fileID: 8300000, guid: efe85ce1c5b4dae41b1f4a1202fbf4a3, type: 3}
   hoverLight: {fileID: 929436617}
   isAdditionTower: 0
   idleDragIntensity: 30
