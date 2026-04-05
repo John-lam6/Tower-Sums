@@ -1,27 +1,162 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
+public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+{
     private Vector3 startPosition;
     private Transform startParent;
-    //private RectTransform text_RectTransform;
 
-    public void OnBeginDrag(PointerEventData eventData) {
+    private DropHandler currentDropZone;
+    private BlockData blockData;
+
+    public DropHandler additionDropZone;
+    public DropHandler subtractionDropZone;
+
+    void Awake()
+    {
+        blockData = GetComponent<BlockData>();
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        transform.DOKill();
+
+        Vector3 raycastOrigin = Camera.main.WorldToScreenPoint(transform.position);
+
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(raycastOrigin), out RaycastHit hit, 15.0f, LayerMask.GetMask("Drop Zone")))
+        {
+            DropHandler dropZone = hit.transform.GetComponentInParent<DropHandler>();
+
+            if (dropZone != null && dropZone.CanAcceptDrop())
+            {
+                dropZone.OnDrag(eventData);
+            }
+        }
+
         startPosition = transform.position;
         startParent = transform.parent;
-        //text_RectTransform = transform.GetComponent<RectTransform>();
+
+        if (additionDropZone != null && additionDropZone.CanAcceptDrop())
+            additionDropZone.SetSoftGlow(true);
+
+        if (subtractionDropZone != null && subtractionDropZone.CanAcceptDrop())
+            subtractionDropZone.SetSoftGlow(true);
     }
 
-    public void OnDrag(PointerEventData eventData) {
-        Vector3 screenPos = new Vector3(eventData.position.x, eventData.position.y, Camera.main.WorldToScreenPoint(transform.position).z);
+    public void OnDrag(PointerEventData eventData)
+    {
+        transform.DOKill();
+
+        Vector3 screenPos = new Vector3(
+            eventData.position.x,
+            eventData.position.y,
+            Camera.main.WorldToScreenPoint(transform.position).z
+        );
+
         transform.position = Camera.main.ScreenToWorldPoint(screenPos);
-        //text_RectTransform.anchoredPosition = Camera.main.ScreenToWorldPoint(screenPos);
+
+        DropHandler newDropZone = null;
+
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(eventData.position), out RaycastHit hit, 15.0f, LayerMask.GetMask("Drop Zone")))
+        {
+            newDropZone = hit.transform.GetComponentInParent<DropHandler>();
+
+            if (newDropZone != null && !newDropZone.CanAcceptDrop())
+            {
+                newDropZone = null;
+            }
+        }
+
+        if (newDropZone != currentDropZone)
+        {
+            if (currentDropZone != null)
+            {
+                if (currentDropZone.CanAcceptDrop())
+                {
+                    currentDropZone.SetSoftGlow(true);
+                    currentDropZone.SetHover(blockData, false);
+                }
+            }
+
+            currentDropZone = newDropZone;
+
+            if (currentDropZone != null)
+            {
+                if (additionDropZone != null && additionDropZone != currentDropZone && additionDropZone.CanAcceptDrop())
+                    additionDropZone.SetSoftGlow(true);
+
+                if (subtractionDropZone != null && subtractionDropZone != currentDropZone && subtractionDropZone.CanAcceptDrop())
+                    subtractionDropZone.SetSoftGlow(true);
+
+                currentDropZone.SetHover(blockData, true);
+            }
+            else
+            {
+                if (additionDropZone != null && additionDropZone.CanAcceptDrop())
+                    additionDropZone.SetSoftGlow(true);
+
+                if (subtractionDropZone != null && subtractionDropZone.CanAcceptDrop())
+                    subtractionDropZone.SetSoftGlow(true);
+            }
+        }
     }
 
-    public void OnEndDrag(PointerEventData eventData) {
-            
-        
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(eventData.position), out RaycastHit hit, 15.0f, LayerMask.GetMask("Drop Zone")))
+        {
+            DropHandler dropZone = hit.transform.GetComponentInParent<DropHandler>();
+
+            if (dropZone != null && dropZone.CanAcceptDrop())
+            {
+                if (additionDropZone != null) additionDropZone.SetSoftGlow(false);
+                if (subtractionDropZone != null) subtractionDropZone.SetSoftGlow(false);
+
+                currentDropZone = null;
+                dropZone.OnDrop(eventData);
+                return;
+            }
+        }
+
+        if (currentDropZone != null)
+        {
+            if (currentDropZone.CanAcceptDrop())
+            {
+                currentDropZone.SetSoftGlow(true);
+                currentDropZone.SetHover(blockData, false);
+            }
+
+            currentDropZone = null;
+        }
+
+        if (additionDropZone != null) additionDropZone.SetSoftGlow(false);
+        if (subtractionDropZone != null) subtractionDropZone.SetSoftGlow(false);
+
+        if (blockData != null && !blockData.hasTower)
+        {
+            transform.DOKill();
+
+            float moveTime = 0.5f;
+
+            if (additionDropZone != null)
+            {
+                moveTime = additionDropZone.GetBlockMoveTime();
+            }
+            else if (subtractionDropZone != null)
+            {
+                moveTime = subtractionDropZone.GetBlockMoveTime();
+            }
+
+            transform.DOMove(blockData.hotbarPosition, moveTime)
+                .OnComplete(() =>
+                {
+                    blockData.SetState(BlockState.InHotbar);
+                    blockData.ApplyHotbarScale();
+                    currentDropZone = null;
+                });
+        }
     }
 }

@@ -13,5 +13,5 @@ public class LevelData : ScriptableObject {
     public int startValue;
     public int targetValue;
     public int[] availableBlocks;
-    public DifficultyMode mode;
+    public DifficultyMode mode = new DifficultyMode();
 }
