@@ -24,7 +24,7 @@ public class PauseMenuController : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Menu"))
+        if(Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MainScene"))
         {
             TogglePause();
         }

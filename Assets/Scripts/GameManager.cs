@@ -6,6 +6,7 @@ using UnityEngine.Experimental.GlobalIllumination;
 using DG.Tweening;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -45,9 +46,8 @@ public class GameManager : MonoBehaviour
     public AudioClip lights_out_clip;
 
     public Button submitButton;
-
     private bool isClicked = false;
-    
+    [SerializeField] private SkipLevelButton skipLevelButton;
     
     public void OnSubmit() {
         if (!isClicked) StartCoroutine(OnSubmitCoroutine());
@@ -152,14 +152,7 @@ public class GameManager : MonoBehaviour
             textbox.color = Color.green;
             yield return new WaitForSeconds(1.6f);
             
-            currentLevel++;
-            if(currentLevel < levels.Count)
-            {
-                LoadLevel(levels[currentLevel]);
-            } else
-            {
-                // victory screen or something
-            }
+            LoadNextLevel();
         }
         // incorrect
         else {
@@ -170,6 +163,7 @@ public class GameManager : MonoBehaviour
             // startBlock.ResetTowerHeight();
             addTower.ResetBlockPositions();
             subTower.ResetBlockPositions();
+            skipLevelButton.AddFail();
         }
 
         goalSpotlight.enabled = false;
@@ -193,6 +187,19 @@ public class GameManager : MonoBehaviour
            
         currentLevel = 0;
         LoadLevel(levels[currentLevel]);
+    }
+    
+    public void LoadNextLevel()
+    {
+        currentLevel++;
+        skipLevelButton.ResetFailCount();
+            if(currentLevel < levels.Count)
+            {
+                LoadLevel(levels[currentLevel]);
+            } else
+            {
+                SceneManager.LoadScene("Win");
+            }
     }
 
     public void LoadLevel(LevelData level) {
@@ -256,7 +263,7 @@ public class GameManager : MonoBehaviour
             GameObject newBlock = Instantiate(baseBlock as GameObject);
 
             // position using index
-            Vector3 offset = new Vector3(blockCount * 1.5f - 3.0f, 0f, -3f);
+            Vector3 offset = new Vector3(blockCount * 1.5f - 3.0f, 0.5f, -3f);
             newBlock.transform.position = hotbar.position + offset;
 
             BlockData blockData = newBlock.GetComponent<BlockData>();
