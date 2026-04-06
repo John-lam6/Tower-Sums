@@ -65,9 +65,9 @@ public class GameManager : MonoBehaviour
         goalSpotlight.enabled = false;
         dirLight.enabled = false;
         //yield return new WaitForSeconds(0.3f);
-        audiosource.volume = 1;
+        // audiosource.volume = 1;
         audiosource.PlayOneShot(lights_out_clip);
-        audiosource.volume = 0.41f;
+        // audiosource.volume = 0.41f;
         yield return new WaitForSeconds(0.8f);
         
         // show start tower

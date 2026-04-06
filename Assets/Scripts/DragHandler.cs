@@ -14,14 +14,18 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public DropHandler additionDropZone;
     public DropHandler subtractionDropZone;
-
+    private PauseMenuController pauseMenu;
+    
     void Awake()
     {
         blockData = GetComponent<BlockData>();
+        pauseMenu = GameObject.Find("Pause Menu").GetComponent<PauseMenuController>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if(pauseMenu.isPaused()) return; 
+        
         transform.DOKill();
 
         Vector3 raycastOrigin = Camera.main.WorldToScreenPoint(transform.position);
@@ -48,6 +52,8 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnDrag(PointerEventData eventData)
     {
+        if(pauseMenu.isPaused()) return;
+
         transform.DOKill();
 
         Vector3 screenPos = new Vector3(
@@ -106,6 +112,8 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if(pauseMenu.isPaused()) return;
+        
         if (Physics.Raycast(Camera.main.ScreenPointToRay(eventData.position), out RaycastHit hit, 15.0f, LayerMask.GetMask("Drop Zone")))
         {
             DropHandler dropZone = hit.transform.GetComponentInParent<DropHandler>();
