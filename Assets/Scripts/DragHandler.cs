@@ -15,16 +15,18 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public DropHandler additionDropZone;
     public DropHandler subtractionDropZone;
     private PauseMenuController pauseMenu;
+    private GameManager gameManager;
     
     void Awake()
     {
         blockData = GetComponent<BlockData>();
         pauseMenu = GameObject.Find("Pause Menu").GetComponent<PauseMenuController>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if(pauseMenu.isPaused()) return; 
+        if(!CanDrag()) return; 
         
         transform.DOKill();
 
@@ -52,7 +54,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnDrag(PointerEventData eventData)
     {
-        if(pauseMenu.isPaused()) return;
+        if(!CanDrag()) return; 
 
         transform.DOKill();
 
@@ -112,8 +114,8 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if(pauseMenu.isPaused()) return;
-        
+        if(!CanDrag()) return; 
+
         if (Physics.Raycast(Camera.main.ScreenPointToRay(eventData.position), out RaycastHit hit, 15.0f, LayerMask.GetMask("Drop Zone")))
         {
             DropHandler dropZone = hit.transform.GetComponentInParent<DropHandler>();
@@ -166,5 +168,9 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     currentDropZone = null;
                 });
         }
+    }
+    private bool CanDrag()
+    {
+        return !pauseMenu.isPaused() && !gameManager.IsSubmitting(); 
     }
 }

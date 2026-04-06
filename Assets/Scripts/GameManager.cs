@@ -288,4 +288,9 @@ public class GameManager : MonoBehaviour
         newBlockData.SetValue(value);
         return newBlock;  
     }
+
+    public bool IsSubmitting()
+    {
+        return isClicked;
+    }
 }

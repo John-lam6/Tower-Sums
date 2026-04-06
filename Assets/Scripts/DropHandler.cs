@@ -19,12 +19,14 @@ public class DropHandler : MonoBehaviour, IDropHandler
     private TowerController tower;
     private BoxCollider boxCollider;
     private PauseMenuController pauseMenu;
+    private GameManager gameManager;
 
     void Start()
     {
         tower = GetComponent<TowerController>();
         boxCollider = GetComponent<BoxCollider>();
         pauseMenu = GameObject.Find("Pause Menu").GetComponent<PauseMenuController>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         if (hoverLight != null)
         {
@@ -39,7 +41,7 @@ public class DropHandler : MonoBehaviour, IDropHandler
                gameObject.layer == LayerMask.NameToLayer("Drop Zone") &&
                boxCollider != null &&
                boxCollider.enabled
-               && !pauseMenu.isPaused();
+               && !pauseMenu.isPaused() && !gameManager.IsSubmitting();
     }
 
     public void SetDropEnabled(bool value)
