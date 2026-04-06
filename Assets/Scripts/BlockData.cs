@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -69,18 +70,18 @@ public class BlockData : MonoBehaviour {
     }
 
     void UpdateHeight() {
-        if (value < 1) value = 1;
+        if (value < 0) value = 0;
         
         float newScaleY = value * unitHeight;
         float newPosY = newScaleY / 2f;
         float tweenTime = 0.3f;
-
+        
         transform.DOScaleY(newScaleY, tweenTime).SetEase(Ease.InOutSine);
         //transform.DOMoveY (newPosY, tweenTime).SetEase (Ease.InOutSine);
         targetHeight = newPosY;
 
+        if (value == 0) newScaleY = 1; 
         if (textbox != null) {
-            float originalScaleY = transform.localScale.y;
             DOTween.To(
                 () => transform.localScale.y,
                 y => textbox.transform.localScale = new Vector3(1f, 1f / y, 1f),
@@ -136,7 +137,8 @@ public class BlockData : MonoBehaviour {
 
     public void SetValue(int newValue)
     {
-        value = Mathf.Max(1, newValue);
+        value = Mathf.Max(0, newValue);
+        //value = newValue;
         textbox.text = value.ToString();
         
         if (isHotbarBlock) {

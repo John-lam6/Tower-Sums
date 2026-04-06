@@ -125,6 +125,7 @@ public class GameManager : MonoBehaviour
             textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString() + " - " +
                            towervalue.ToString();
             result -= subTower.GetTotalValue();
+            if (result < 0) result = 0;
             
             StartCoroutine(subTower.MergeSubtractTower());
             yield return new WaitForSeconds(0.65f);
