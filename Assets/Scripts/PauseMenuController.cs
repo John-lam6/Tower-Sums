@@ -30,7 +30,7 @@ public class PauseMenuController : MonoBehaviour
         }
     }
 
-    private void TogglePause()
+    public void TogglePause()
     {
         paused = !paused;
 
