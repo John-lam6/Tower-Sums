@@ -158,7 +158,12 @@ public class DropHandler : MonoBehaviour, IDropHandler
         else block.SetState(BlockState.OnSubtraction);
 
         block.targetHeight = targetPos.y;
-        block.transform.DOMove(targetPos, blockMoveTime).OnComplete(() => audioSource.PlayOneShot(placeSound));
+        //block.transform.DOMove(targetPos, blockMoveTime).OnComplete(() => audioSource.PlayOneShot(placeSound));
+        
+        // play at 55% of the tween
+        float audioDelay = blockMoveTime * 0.55f; 
+        block.transform.DOMove(targetPos, blockMoveTime);
+        DOVirtual.DelayedCall(audioDelay, () => audioSource.PlayOneShot(placeSound));
 
         SetHover(block, false);
     }

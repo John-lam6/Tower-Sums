@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public enum BlockState {
     InHotbar,
@@ -69,11 +70,30 @@ public class BlockData : MonoBehaviour {
 
     void UpdateHeight() {
         if (value < 1) value = 1;
+        
+        float newScaleY = value * unitHeight;
+        float newPosY = newScaleY / 2f;
+        float tweenTime = 0.3f;
 
+        transform.DOScaleY(newScaleY, tweenTime).SetEase(Ease.InOutSine);
+        //transform.DOMoveY (newPosY, tweenTime).SetEase (Ease.InOutSine);
+        targetHeight = newPosY;
+
+        if (textbox != null) {
+            float originalScaleY = transform.localScale.y;
+            DOTween.To(
+                () => transform.localScale.y,
+                y => textbox.transform.localScale = new Vector3(1f, 1f / y, 1f),
+                newScaleY,
+                tweenTime
+            ).SetEase(Ease.InOutSine);
+        }
+
+        /*
         Vector3 scale = transform.localScale;
         scale.y = value * unitHeight;
         transform.localScale = scale;
-        
+
         // keep base grounded so it grows upward and not outward
         Vector3 pos = transform.position;
         pos.y = scale.y / 2f;
@@ -83,6 +103,7 @@ public class BlockData : MonoBehaviour {
         if (textbox != null) {
             textbox.transform.localScale = new Vector3(1f, 1f / scale.y, 1f);
         }
+        */
     }
 
     public void ApplyHotbarScale() {

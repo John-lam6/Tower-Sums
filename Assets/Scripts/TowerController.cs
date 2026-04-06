@@ -37,12 +37,13 @@ public class TowerController : MonoBehaviour
         mergeOffset = startBlock.value * startBlock.unitHeight; 
         foreach(BlockData block in stackedBlocks)
         {
-            block.transform.DOMove(new(startBlock.transform.position.x, block.transform.position.y + mergeOffset), 0.5f)
+            //block.transform.DOMove(new(startBlock.transform.position.x, block.transform.position.y + mergeOffset), 0.75f)
+            block.transform.DOMove (new (startBlock.transform.position.x, block.transform.position.y + mergeOffset),0.75f)
             .SetEase(Ease.InOutSine)
             .OnComplete(() => block.gameObject.SetActive(false));
         }
         
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.65f);
         startBlock.SetValue(startBlock.value + GetTotalValue());
         // startBlock.ResetTowerHeight();
     }
@@ -51,12 +52,13 @@ public class TowerController : MonoBehaviour
         mergeOffset = Math.Max(0, startBlock.value - GetTotalValue()) * startBlock.unitHeight;
         foreach(BlockData block in stackedBlocks)
         {
-            block.transform.DOMove(new(startBlock.transform.position.x, block.transform.position.y + mergeOffset), 0.5f)
+            //block.transform.DOMove(new(startBlock.transform.position.x, block.transform.position.y + mergeOffset), 0.75f)
+            block.transform.DOMove (new (startBlock.transform.position.x, block.transform.position.y),0.75f)
             .SetEase(Ease.InOutSine)
             .OnComplete(() => block.gameObject.SetActive(false));
         }
         
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.65f);
         startBlock.SetValue(startBlock.value - GetTotalValue());
         // startBlock.ResetTowerHeight();
     }
