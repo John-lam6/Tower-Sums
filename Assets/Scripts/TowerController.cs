@@ -47,7 +47,7 @@ public class TowerController : MonoBehaviour
     }
     public IEnumerator MergeSubtractTower()
     {
-        mergeOffset = Math.Max(0, startBlock.value - GetTotalValue()) * startBlock.unitHeight;
+        mergeOffset = 0;
         foreach(BlockData block in stackedBlocks)
         {
             block.transform.DOMove (new (startBlock.transform.position.x, block.transform.position.y),0.75f)
