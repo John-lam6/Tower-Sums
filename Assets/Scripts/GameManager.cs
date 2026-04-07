@@ -64,10 +64,7 @@ public class GameManager : MonoBehaviour
         textbox.enabled = true;
         goalSpotlight.enabled = false;
         dirLight.enabled = false;
-        //yield return new WaitForSeconds(0.3f);
-        // audiosource.volume = 1;
         audiosource.PlayOneShot(lights_out_clip);
-        // audiosource.volume = 0.41f;
         yield return new WaitForSeconds(0.8f);
         
         // show start tower
@@ -93,7 +90,6 @@ public class GameManager : MonoBehaviour
             // shows the total value of the tower next to the tower, then displays current result
             yield return new WaitForSeconds(0.65f);
             audiosource.PlayOneShot(value1_clip);
-            //textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
             textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString() + " + " +
                            towervalue.ToString();
             result += addTower.GetTotalValue();
@@ -101,7 +97,6 @@ public class GameManager : MonoBehaviour
             StartCoroutine(addTower.MergeAddTower());
             yield return new WaitForSeconds(0.65f);
             
-            // yield return new WaitForSeconds(0.65f);
             audiosource.PlayOneShot(value2_clip);
             textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
         }
@@ -121,7 +116,6 @@ public class GameManager : MonoBehaviour
             // shows the total value of the tower next to the tower, then displays current result
             yield return new WaitForSeconds(0.65f);
             audiosource.PlayOneShot(value1_clip);
-            //textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
             textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString() + " - " +
                            towervalue.ToString();
             result -= subTower.GetTotalValue();
@@ -130,7 +124,6 @@ public class GameManager : MonoBehaviour
             StartCoroutine(subTower.MergeSubtractTower());
             yield return new WaitForSeconds(0.65f);
 
-            // yield return new WaitForSeconds(0.65f);
             audiosource.PlayOneShot(value2_clip);
             textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
         }
@@ -160,7 +153,6 @@ public class GameManager : MonoBehaviour
             textbox.color = Color.red;
             yield return new WaitForSeconds(1.6f);
             startBlock.SetValue(currLevelData.startValue);
-            // startBlock.ResetTowerHeight();
             addTower.ResetBlockPositions();
             subTower.ResetBlockPositions();
             skipLevelButton.AddFail();
@@ -178,7 +170,6 @@ public class GameManager : MonoBehaviour
         isClicked = false;
     }
     
-    // Start is called before the first frame update
     void Start() {
         isClicked = false;
         submitButton.image.color = Color.white;
@@ -242,20 +233,10 @@ public class GameManager : MonoBehaviour
 
         startAmount = level.startValue;
         startBlock.SetValue(startAmount);
-        // startingTowerBlock.transform.position = new(startingTowerBlock.transform.position.x, defaultTowerHeight + (startAmount / 2.0f * startingBlock.unitHeight));
-        // startBlock.ResetTowerHeight();
-
+    
         goalAmount = level.targetValue;
         goalBlock.SetValue(goalAmount);
-        // goalTowerBlock.transform.position = new(goalTowerBlock.transform.position.x, defaultTowerHeight + (goalAmount / 2.0f * goalBlock.unitHeight));
-        // goalBlock.ResetTowerHeight();
-
-        // foreach(int blockValue in level.availableBlocks)
-        // {
-        //     Instantiate(createBlock(blockValue));
-        //     // these should be put in the hotbar
-        // }
-
+    
         int blockCount = 0;
 
         foreach(int blockValue in level.availableBlocks)
@@ -286,14 +267,6 @@ public class GameManager : MonoBehaviour
             blockCount++;
             activeBlocks.Add(newBlock);
         }
-    }
-
-    private Object createBlock(int value)
-    {
-        Object newBlock = baseBlock;
-        BlockData newBlockData = newBlock.GameObject().GetComponent<BlockData>();
-        newBlockData.SetValue(value);
-        return newBlock;  
     }
 
     public bool IsSubmitting()
