@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public enum BlockState {
     InHotbar,
@@ -15,6 +16,7 @@ public class BlockData : MonoBehaviour {
     public BlockState state;
     public float unitHeight = 1f;
     public float hotbarHeight = 0.6f;
+    public float defaultTowerHeight = -1.5f;
     private Vector3 originalScale;
     public TextMeshPro textbox;
 
@@ -67,20 +69,23 @@ public class BlockData : MonoBehaviour {
     }
 
     void UpdateHeight() {
-        if (value < 1) value = 1;
-
-        Vector3 scale = transform.localScale;
-        scale.y = value * unitHeight;
-        transform.localScale = scale;
+        if (value < 0) value = 0;
         
-        // keep base grounded so it grows upward and not outward
-        Vector3 pos = transform.position;
-        pos.y = scale.y / 2f;
-        transform.position = pos;
-        targetHeight = pos.y;
+        float newScaleY = value * unitHeight;
+        float newPosY = newScaleY / 2f;
+        float tweenTime = 0.3f;
+        
+        transform.DOScaleY(newScaleY, tweenTime).SetEase(Ease.InOutSine);
+        targetHeight = newPosY;
 
+        if (value == 0) newScaleY = 1; 
         if (textbox != null) {
-            textbox.transform.localScale = new Vector3(1f, 1f / scale.y, 1f);
+            DOTween.To(
+                () => transform.localScale.y,
+                y => textbox.transform.localScale = new Vector3(1f, 1f / y, 1f),
+                newScaleY,
+                tweenTime
+            ).SetEase(Ease.InOutSine);
         }
     }
 
@@ -114,17 +119,20 @@ public class BlockData : MonoBehaviour {
 
     public void SetValue(int newValue)
     {
-        value = Mathf.Max(1, newValue);
+        value = Mathf.Max(0, newValue);
         textbox.text = value.ToString();
-
-        if (hasTower) {
-            ApplyTowerScale();
-        }
-        else if (isHotbarBlock) {
+        
+        if (isHotbarBlock) {
             ApplyHotbarScale();
         }
         else {
             UpdateHeight();
+            ResetTowerHeight();
         }
+    }
+
+    public void ResetTowerHeight()
+    {
+        transform.position = new(transform.position.x, defaultTowerHeight + (value / 2.0f * unitHeight));
     }
 }

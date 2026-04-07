@@ -9,6 +9,8 @@ using UnityEngine.EventSystems;
 public class DropHandler : MonoBehaviour, IDropHandler
 {
     [SerializeField] private float blockMoveTime = 0.5f;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip placeSound;
     public Light hoverLight;
     public bool isAdditionTower = true;
     public float idleDragIntensity = 0.8f;
@@ -16,11 +18,15 @@ public class DropHandler : MonoBehaviour, IDropHandler
 
     private TowerController tower;
     private BoxCollider boxCollider;
+    private PauseMenuController pauseMenu;
+    private GameManager gameManager;
 
     void Start()
     {
         tower = GetComponent<TowerController>();
         boxCollider = GetComponent<BoxCollider>();
+        pauseMenu = GameObject.Find("Pause Menu").GetComponent<PauseMenuController>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         if (hoverLight != null)
         {
@@ -34,7 +40,8 @@ public class DropHandler : MonoBehaviour, IDropHandler
                gameObject.activeInHierarchy &&
                gameObject.layer == LayerMask.NameToLayer("Drop Zone") &&
                boxCollider != null &&
-               boxCollider.enabled;
+               boxCollider.enabled
+               && !pauseMenu.isPaused() && !gameManager.IsSubmitting();
     }
 
     public void SetDropEnabled(bool value)
@@ -156,7 +163,11 @@ public class DropHandler : MonoBehaviour, IDropHandler
         else block.SetState(BlockState.OnSubtraction);
 
         block.targetHeight = targetPos.y;
+        
+        // play at 55% of the tween
+        float audioDelay = blockMoveTime * 0.55f; 
         block.transform.DOMove(targetPos, blockMoveTime);
+        DOVirtual.DelayedCall(audioDelay, () => audioSource.PlayOneShot(placeSound));
 
         SetHover(block, false);
     }

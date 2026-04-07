@@ -6,6 +6,7 @@ using UnityEngine.Experimental.GlobalIllumination;
 using DG.Tweening;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,11 +15,10 @@ public class GameManager : MonoBehaviour
     private LevelData currLevelData;
     public Object baseBlock;
     private List<Object> activeBlocks = new();
-    public GameObject startingTowerBlock;
-    public GameObject goalTowerBlock;
+    public BlockData startBlock;
+    public BlockData goalBlock;
     private int startAmount;
     private int goalAmount;
-    private float defaultTowerHeight = -1.5f;
     public Transform hotbar;   // your Cube
     public float spacing = 1.5f;
 
@@ -46,9 +46,8 @@ public class GameManager : MonoBehaviour
     public AudioClip lights_out_clip;
 
     public Button submitButton;
-
     private bool isClicked = false;
-    
+    [SerializeField] private SkipLevelButton skipLevelButton;
     
     public void OnSubmit() {
         if (!isClicked) StartCoroutine(OnSubmitCoroutine());
@@ -61,13 +60,11 @@ public class GameManager : MonoBehaviour
         textbox.color = Color.white;
         int towervalue, result;
         textbox.transform.position = new Vector3(-5.23f, 5.42f, 0.1f);
+        textbox.text = "Tower Value: ---" + "\nResult: ---";
         textbox.enabled = true;
         goalSpotlight.enabled = false;
         dirLight.enabled = false;
-        //yield return new WaitForSeconds(0.3f);
-        audiosource.volume = 1;
         audiosource.PlayOneShot(lights_out_clip);
-        audiosource.volume = 0.41f;
         yield return new WaitForSeconds(0.8f);
         
         // show start tower
@@ -93,11 +90,13 @@ public class GameManager : MonoBehaviour
             // shows the total value of the tower next to the tower, then displays current result
             yield return new WaitForSeconds(0.65f);
             audiosource.PlayOneShot(value1_clip);
-            //textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
             textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString() + " + " +
                            towervalue.ToString();
             result += addTower.GetTotalValue();
+            
+            StartCoroutine(addTower.MergeAddTower());
             yield return new WaitForSeconds(0.65f);
+            
             audiosource.PlayOneShot(value2_clip);
             textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
         }
@@ -117,11 +116,14 @@ public class GameManager : MonoBehaviour
             // shows the total value of the tower next to the tower, then displays current result
             yield return new WaitForSeconds(0.65f);
             audiosource.PlayOneShot(value1_clip);
-            //textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
             textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString() + " - " +
                            towervalue.ToString();
             result -= subTower.GetTotalValue();
+            if (result < 0) result = 0;
+            
+            StartCoroutine(subTower.MergeSubtractTower());
             yield return new WaitForSeconds(0.65f);
+
             audiosource.PlayOneShot(value2_clip);
             textbox.text = "Tower Value: " + towervalue.ToString() + "\nResult: " + result.ToString();
         }
@@ -143,20 +145,17 @@ public class GameManager : MonoBehaviour
             textbox.color = Color.green;
             yield return new WaitForSeconds(1.6f);
             
-            currentLevel++;
-            if(currentLevel < levels.Count)
-            {
-                LoadLevel(levels[currentLevel]);
-            } else
-            {
-                // victory screen or something
-            }
+            LoadNextLevel();
         }
         // incorrect
         else {
             audiosource.PlayOneShot(wrong_clip);
             textbox.color = Color.red;
             yield return new WaitForSeconds(1.6f);
+            startBlock.SetValue(currLevelData.startValue);
+            addTower.ResetBlockPositions();
+            subTower.ResetBlockPositions();
+            skipLevelButton.AddFail();
         }
 
         goalSpotlight.enabled = false;
@@ -171,7 +170,6 @@ public class GameManager : MonoBehaviour
         isClicked = false;
     }
     
-    // Start is called before the first frame update
     void Start() {
         isClicked = false;
         submitButton.image.color = Color.white;
@@ -180,6 +178,19 @@ public class GameManager : MonoBehaviour
            
         currentLevel = 0;
         LoadLevel(levels[currentLevel]);
+    }
+    
+    public void LoadNextLevel()
+    {
+        currentLevel++;
+        skipLevelButton.ResetFailCount();
+            if(currentLevel < levels.Count)
+            {
+                LoadLevel(levels[currentLevel]);
+            } else
+            {
+                SceneManager.LoadScene("Win");
+            }
     }
 
     public void LoadLevel(LevelData level) {
@@ -220,22 +231,12 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        BlockData startingBlock = startingTowerBlock.GetComponent<BlockData>();
         startAmount = level.startValue;
-        startingBlock.SetValue(startAmount);
-        startingTowerBlock.transform.position = new(startingTowerBlock.transform.position.x, defaultTowerHeight + (startAmount / 2.0f * startingBlock.unitHeight));
-
-        BlockData goalBlock = goalTowerBlock.GetComponent<BlockData>();
+        startBlock.SetValue(startAmount);
+    
         goalAmount = level.targetValue;
         goalBlock.SetValue(goalAmount);
-        goalTowerBlock.transform.position = new(goalTowerBlock.transform.position.x, defaultTowerHeight + (goalAmount / 2.0f * goalBlock.unitHeight));
-
-        // foreach(int blockValue in level.availableBlocks)
-        // {
-        //     Instantiate(createBlock(blockValue));
-        //     // these should be put in the hotbar
-        // }
-
+    
         int blockCount = 0;
 
         foreach(int blockValue in level.availableBlocks)
@@ -243,7 +244,7 @@ public class GameManager : MonoBehaviour
             GameObject newBlock = Instantiate(baseBlock as GameObject);
 
             // position using index
-            Vector3 offset = new Vector3(blockCount * 1.5f - 3.0f, 0f, -3f);
+            Vector3 offset = new Vector3(blockCount * 1.5f - 3.0f, 0.5f, -3f);
             newBlock.transform.position = hotbar.position + offset;
 
             BlockData blockData = newBlock.GetComponent<BlockData>();
@@ -268,11 +269,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private Object createBlock(int value)
+    public bool IsSubmitting()
     {
-        Object newBlock = baseBlock;
-        BlockData newBlockData = newBlock.GameObject().GetComponent<BlockData>();
-        newBlockData.SetValue(value);
-        return newBlock;  
+        return isClicked;
     }
 }
